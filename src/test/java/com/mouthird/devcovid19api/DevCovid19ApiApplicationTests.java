@@ -7,8 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DevCovid19ApiApplicationTests {
 
 	@Test
-	void contextLoads() {
-		System.out.println("Test the test");
-	}
+	void contextLoads() {}
 
 }
