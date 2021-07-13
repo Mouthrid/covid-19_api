@@ -1,7 +1,13 @@
 package com.mouthird.devcovid19api.dao.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Class for News
@@ -32,7 +38,8 @@ public class News {
     /**
      * News published time
      */
-    private String news_time;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date news_time;
     /**
      * time of web crawler get this news
      */
@@ -49,6 +56,8 @@ public class News {
      * short description for this News
      */
     private String description;
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * default constructor for News
@@ -69,7 +78,11 @@ public class News {
                 String img_url,
                 String description) {
         this.title = title;
-        this.news_time = news_time;
+        try {
+            this.news_time = simpleDateFormat.parse(news_time);
+        } catch (ParseException e) {
+            assert false : e.toString();
+        }
         this.crawl_time = LocalDate.now();
         this.news_url = news_url;
         this.img_url = img_url;

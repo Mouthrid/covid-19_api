@@ -26,11 +26,11 @@ class NewsRepositoryIntegrationTests {
 	private QNews qNews = QNews.news;
 
 	@BeforeEach
-	public void init() {
+	public void setUp() {
 		newsRepository.deleteAll();
 		List<News> newsList = new ArrayList<>();
 		for(int i=0; i<5; i++) {
-			newsList.add(new News("test title", "7.12", "https://test.com",
+			newsList.add(new News("test title", "2021-7-12", "https://test.com",
 					"https://img.jpg", "This is test object."));
 
 		}
