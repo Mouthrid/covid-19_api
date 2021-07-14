@@ -3,13 +3,12 @@ package com.mouthird.devcovid19api;
 import com.mouthird.devcovid19api.dao.entity.News;
 import com.mouthird.devcovid19api.dao.repositories.NewsRepository;
 import com.mouthird.devcovid19api.service.NewsService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class NewsServiceImplTest {
     public void getNews() {
         List<News> newsList = new ArrayList<>();
         for(int i=0; i<5; i++) {
-            newsList.add(new News("test title", "2021-7-12", "https://test.com",
+            newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
         when(newsRepository.findAll()).thenReturn(newsList);
@@ -47,7 +46,7 @@ public class NewsServiceImplTest {
     public void addNews() {
         List<News> newsList = new ArrayList<>();
         for(int i=0; i<5; i++) {
-            newsList.add(new News("test title", "2021-7-12", "https://test.com",
+            newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
         newsService.addNews(newsList);

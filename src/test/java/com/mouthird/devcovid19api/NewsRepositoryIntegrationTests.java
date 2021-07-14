@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ class NewsRepositoryIntegrationTests {
 		newsRepository.deleteAll();
 		List<News> newsList = new ArrayList<>();
 		for(int i=0; i<5; i++) {
-			newsList.add(new News("test title", "2021-7-12", "https://test.com",
+			newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
 					"https://img.jpg", "This is test object."));
 
 		}

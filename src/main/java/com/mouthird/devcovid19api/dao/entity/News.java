@@ -3,11 +3,9 @@ package com.mouthird.devcovid19api.dao.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Class for News
@@ -34,12 +32,14 @@ public class News {
     /**
      * News title
      */
+    @NotBlank
     private String title;
     /**
      * News published time
      */
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date news_time;
+    private LocalDate news_time;
     /**
      * time of web crawler get this news
      */
@@ -47,17 +47,18 @@ public class News {
     /**
      * News website url
      */
+    @NotBlank
     private String news_url;
     /**
      * image url for this News
      */
+    @NotBlank
     private String img_url;
     /**
      * short description for this News
      */
+    @NotBlank
     private String description;
-
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * default constructor for News
@@ -73,16 +74,12 @@ public class News {
      * @param description short description for this News
      */
     public News(String title,
-                String news_time,
+                LocalDate news_time,
                 String news_url,
                 String img_url,
                 String description) {
         this.title = title;
-        try {
-            this.news_time = simpleDateFormat.parse(news_time);
-        } catch (ParseException e) {
-            assert false : e.toString();
-        }
+        this.news_time = news_time;
         this.crawl_time = LocalDate.now();
         this.news_url = news_url;
         this.img_url = img_url;
