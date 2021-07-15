@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,9 +35,11 @@ public class NewsServiceImplTest {
             newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
-        when(newsRepository.findAll()).thenReturn(newsList);
-        List<News> response = newsService.getNews();
-        assertEquals(5, response.size());
+        Page<News> newsPage = new PageImpl<>(newsList);
+        PageRequest pageable = PageRequest.of(0,5 , Sort.by(Sort.Direction.DESC, "newsTime"));
+        when(newsRepository.findAll(pageable)).thenReturn(newsPage);
+        Page<News> response = newsService.getNews(5);
+        assertEquals(5, response.getSize());
     }
 
     @Test
@@ -55,6 +61,10 @@ public class NewsServiceImplTest {
 
     @Test
     public void putNews() {
+        News news = new News(1L, "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+                "https://img.jpg", "This is test object.");
+        newsService.putNews(news);
+        verify(newsRepository, times(1)).save(news);
 
     }
 }

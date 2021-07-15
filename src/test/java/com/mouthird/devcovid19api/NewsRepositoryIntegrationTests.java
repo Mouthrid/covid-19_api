@@ -46,11 +46,20 @@ class NewsRepositoryIntegrationTests {
 
 	@Transactional
 	@Test
-	public void putNews() {
+	public void putNewsDSL() {
 		News news = queryFactory.selectFrom(qNews).fetchFirst();
 		Long status = queryFactory.update(qNews).where(qNews.id.eq(news.getId()))
 				.set(qNews.title, "Change Title").execute();
 		assertEquals(1, status);
+	}
+
+	@Test
+	public void putNewsJPA() {
+		News news = queryFactory.selectFrom(qNews).fetchFirst();
+		news.setTitle("Change Title");
+		newsRepository.save(news);
+		News modified = queryFactory.selectFrom(qNews).where(qNews.id.eq(news.getId())).fetchFirst();
+		assertEquals(news.getTitle(), modified.getTitle());
 	}
 
 	@Transactional
