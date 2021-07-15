@@ -2,10 +2,20 @@
 
 This is an example output for a service running at http://localhost:8080:
 
-.request
+.http-request
 include::build/generated-snippets/news/http-request.adoc[]
 
-.response
+.curl-request
+include::build/generated-snippets/news/curl-request.adoc[]
+
+.http-response
 include::build/generated-snippets/news/http-response.adoc[]
+
+.request-fields
+include::build/generated-snippets/news/request-parameters.adoc[]
+
+.response-fields
+include::build/generated-snippets/news/response-fields.adoc[]
+
 
 As you can see the format is very simple, and in fact you always get the same message.
