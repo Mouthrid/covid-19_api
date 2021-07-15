@@ -38,8 +38,8 @@ public class NewsServiceImplTest {
         Page<News> newsPage = new PageImpl<>(newsList);
         PageRequest pageable = PageRequest.of(0,5 , Sort.by(Sort.Direction.DESC, "newsTime"));
         when(newsRepository.findAll(pageable)).thenReturn(newsPage);
-        Page<News> response = newsService.getNews(5);
-        assertEquals(5, response.getSize());
+        List<News> response = newsService.getNews(5);
+        assertEquals(5, response.size());
     }
 
     @Test

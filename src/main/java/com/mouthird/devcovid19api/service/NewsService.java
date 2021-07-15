@@ -3,7 +3,6 @@ package com.mouthird.devcovid19api.service;
 import com.mouthird.devcovid19api.dao.entity.News;
 import com.mouthird.devcovid19api.dao.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
@@ -24,9 +23,9 @@ public class NewsService {
 
     public void putNews(News news) { newsRepository.save(news); }
 
-    public Page<News> getNews(int limit) {
+    public List<News> getNews(int limit) {
         PageRequest pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "newsTime"));
-        return newsRepository.findAll(pageable);
+        return newsRepository.findAll(pageable).getContent();
     }
 
     public void deleteById(Long Id) {

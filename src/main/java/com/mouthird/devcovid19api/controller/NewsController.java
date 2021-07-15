@@ -3,7 +3,6 @@ package com.mouthird.devcovid19api.controller;
 import com.mouthird.devcovid19api.dao.entity.News;
 import com.mouthird.devcovid19api.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +26,7 @@ public class NewsController {
      * @return News list
      */
     @GetMapping
-    public Page<News> getNews(@RequestParam("limit") Integer limit){
+    public List<News> getNews(@RequestParam("limit") Integer limit){
         return newsService.getNews(limit);
     }
 }
