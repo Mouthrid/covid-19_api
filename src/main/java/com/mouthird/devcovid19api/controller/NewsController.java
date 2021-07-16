@@ -3,11 +3,9 @@ package com.mouthird.devcovid19api.controller;
 import com.mouthird.devcovid19api.dao.entity.News;
 import com.mouthird.devcovid19api.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,10 +21,20 @@ public class NewsController {
 
     /**
      * Get all News in the database
+     * @param limit the number of news list
      * @return News list
      */
     @GetMapping
-    public List<News> getNews(@RequestParam("limit") Integer limit){
+    public List<News> getNews(@RequestParam("limit") Integer limit) {
         return newsService.getNews(limit);
+    }
+
+    /**
+     * Add News list to the database
+     * @param newsList News list
+     */
+    @PostMapping
+    public void addNews(@RequestBody @Valid List<News> newsList) {
+        newsService.addNews(newsList);
     }
 }

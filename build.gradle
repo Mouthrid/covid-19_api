@@ -17,12 +17,17 @@ ext {
 	set('snippetsDir', file("build/generated-snippets"))
 }
 
+configurations {
+	asciidoctorExt
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation "com.querydsl:querydsl-jpa:4.4.0"
 	implementation "com.querydsl:querydsl-core:4.4.0"
@@ -38,6 +43,7 @@ test {
 }
 
 asciidoctor {
+	configurations 'asciidoctorExt'
 	inputs.dir snippetsDir
 	dependsOn test
 }

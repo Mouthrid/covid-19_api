@@ -1,21 +1,13 @@
 = Getting Started With Spring REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
 
-This is an example output for a service running at http://localhost:8080:
-
-.http-request
-include::build/generated-snippets/news/http-request.adoc[]
-
-.curl-request
-include::build/generated-snippets/news/curl-request.adoc[]
-
-.http-response
-include::build/generated-snippets/news/http-response.adoc[]
-
-.request-fields
-include::build/generated-snippets/news/request-parameters.adoc[]
-
-.response-fields
-include::build/generated-snippets/news/response-fields.adoc[]
-
-
-As you can see the format is very simple, and in fact you always get the same message.
+== News
+=== GET
+operation::news/get[snippets='curl-request,http-request,http-response,request-parameters,response-body,response-fields']
+=== POST
+operation::news/post[snippets='curl-request,http-request,http-response,request-body,request-fields']
