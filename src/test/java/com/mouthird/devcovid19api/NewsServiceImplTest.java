@@ -44,6 +44,7 @@ public class NewsServiceImplTest {
 
     @Test
     public void deleteNews() {
+        when(newsRepository.existsById(1L)).thenReturn(true);
         newsService.deleteById(1L);
         verify(newsRepository, times(1)).deleteById(1L);
     }
@@ -63,6 +64,7 @@ public class NewsServiceImplTest {
     public void putNews() {
         News news = new News(1L, "test title", LocalDate.parse("2021-07-12"), "https://test.com",
                 "https://img.jpg", "This is test object.");
+        when(newsRepository.existsById(1L)).thenReturn(true);
         newsService.putNews(news);
         verify(newsRepository, times(1)).save(news);
 
