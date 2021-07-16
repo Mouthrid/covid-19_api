@@ -88,7 +88,7 @@ class NewsControllerTests {
     }
 
     @Test
-    void testAddNews() throws Exception {
+    void testPostNews() throws Exception {
         List<News> newsList = new ArrayList<>();
         for(int i=1; i<=2; i++) {
             newsList.add(new NewsIgnoreProperties("test title", LocalDate.parse("2021-07-12"), "https://test.com",
@@ -105,6 +105,24 @@ class NewsControllerTests {
                         fieldWithPath("[].imgUrl").description("The image for the News"),
                         fieldWithPath("[].description").description("The News description")
                 )));
+    }
+
+    @Test
+    void testPutNews() throws Exception {
+        News news = new News(1L,"test title", LocalDate.parse("2021-07-12"), "https://test.com",
+                "https://img.jpg", "This is test object.");
+        mockMvc.perform(put("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
+        .content(asJsonString(news))).andExpect(status().isOk())
+                .andDo(document("news/put",
+                        requestFields(
+                                fieldWithPath("id").description("The unique News Id"),
+                                fieldWithPath("title").description("The title of News"),
+                                fieldWithPath("newsTime").description("The time of News publish"),
+                                fieldWithPath("crawlTime").description("The time of web crawler get News"),
+                                fieldWithPath("newsUrl").description("The URL for the News website"),
+                                fieldWithPath("imgUrl").description("The image for the News"),
+                                fieldWithPath("description").description("The News description")
+                        )));
     }
 
     @JsonIgnoreProperties({"id","crawlTime"})

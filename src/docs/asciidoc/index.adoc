@@ -11,3 +11,5 @@
 operation::news/get[snippets='curl-request,http-request,http-response,request-parameters,response-body,response-fields']
 === POST
 operation::news/post[snippets='curl-request,http-request,http-response,request-body,request-fields']
+=== PUT
+operation::news/put[snippets='curl-request,http-request,http-response,request-body,request-fields']
