@@ -3,11 +3,13 @@ package com.mouthird.devcovid19api.controller;
 import com.mouthird.devcovid19api.dao.entity.News;
 import com.mouthird.devcovid19api.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping(path="api/v0/news")
 public class NewsController {

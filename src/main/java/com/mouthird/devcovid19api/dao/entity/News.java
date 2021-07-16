@@ -32,12 +32,12 @@ public class News {
     /**
      * News title
      */
-    @NotBlank
+    @NotBlank(message = "title is missing or empty")
     private String title;
     /**
      * News published time
      */
-    @NotNull
+    @NotNull(message = "newsTime is missing or empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate newsTime;
     /**
@@ -47,17 +47,17 @@ public class News {
     /**
      * News website url
      */
-    @NotBlank
+    @NotBlank(message = "newUrl time is missing or empty")
     private String newsUrl;
     /**
      * image url for this News
      */
-    @NotBlank
+    @NotBlank(message = "imgUrl is missing or empty")
     private String imgUrl;
     /**
      * short description for this News
      */
-    @NotBlank
+    @NotBlank(message = "description is missing or empty")
     private String description;
 
     /**
