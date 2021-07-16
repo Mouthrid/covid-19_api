@@ -125,6 +125,15 @@ class NewsControllerTests {
                         )));
     }
 
+    @Test
+    void testDeleteNews() throws Exception {
+        mockMvc.perform(delete("/api/v0/news").param("id", "1"))
+                .andExpect(status().isOk())
+                .andDo(document("news/delete",
+                        requestParameters(parameterWithName("id").description("The News id"))
+                ));
+    }
+
     @JsonIgnoreProperties({"id","crawlTime"})
     public class NewsIgnoreProperties extends News {
         public NewsIgnoreProperties(String title,

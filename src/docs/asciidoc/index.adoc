@@ -13,3 +13,5 @@ operation::news/get[snippets='curl-request,http-request,http-response,request-pa
 operation::news/post[snippets='curl-request,http-request,http-response,request-body,request-fields']
 === PUT
 operation::news/put[snippets='curl-request,http-request,http-response,request-body,request-fields']
+=== DELETE
+operation::news/delete[snippets='curl-request,http-request,http-response,request-parameters']

@@ -54,4 +54,9 @@ public class NewsController {
             news.setCrawlTime(LocalDate.now());
         newsService.putNews(news);
     }
+
+    @DeleteMapping
+    public void deleteNews(@RequestParam("id") Long id) {
+        newsService.deleteById(id);
+    }
 }
