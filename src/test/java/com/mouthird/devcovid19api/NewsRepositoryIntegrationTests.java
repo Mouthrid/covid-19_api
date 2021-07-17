@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -29,13 +28,11 @@ class NewsRepositoryIntegrationTests {
 	@BeforeEach
 	public void setUp() {
 		newsRepository.deleteAll();
-		List<News> newsList = new ArrayList<>();
 		for(int i=0; i<5; i++) {
-			newsList.add(new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
-					"https://img.jpg", "This is test object."));
-
+			News news = new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+					"https://img.jpg", "This is test object.");
+			newsRepository.save(news);
 		}
-		newsRepository.saveAll(newsList);
 	}
 
 	@Test

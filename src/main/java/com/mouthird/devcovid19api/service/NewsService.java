@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NewsService {
@@ -21,17 +20,16 @@ public class NewsService {
         this.newsRepository = newsRepository;
     }
 
-    public void addNews(List<News> newsList) {
-        for(News news : newsList) {
-            boolean exists = newsRepository.existsById(news.getId());
-            if (exists) {
-                throw new IllegalStateException(
-                        "News with id " + news.getId() + " already exists"
-                );
-            }
+    public void addNews(News news) {
+        boolean exists = newsRepository.existsById(news.getId());
+        if (exists) {
+            throw new IllegalStateException(
+                    "News with id " + news.getId() + " already exists"
+            );
         }
-
-        newsRepository.saveAll(newsList);
+        if(news.getCrawlTime() == null)
+            news.setCrawlTime(LocalDate.now());
+        newsRepository.save(news);
     }
 
     public void putNews(News news) {

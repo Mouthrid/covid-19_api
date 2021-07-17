@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Configuration
 public class NewsConfig {
-
+    /**
     @Bean
     CommandLineRunner commandLineRunner(NewsRepository newsRepository) {
         return args -> {
@@ -24,6 +24,6 @@ public class NewsConfig {
             newsRepository.saveAll(Arrays.asList(news1, news2, news3));
         };
     }
-
+    **/
 
 }

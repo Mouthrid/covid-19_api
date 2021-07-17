@@ -1,7 +1,6 @@
 package com.mouthird.devcovid19api.controller;
 
 import com.mouthird.devcovid19api.dao.entity.News;
-import com.mouthird.devcovid19api.helper.ValidList;
 import com.mouthird.devcovid19api.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,11 +41,11 @@ public class NewsController {
 
     /**
      * Add News list to the database
-     * @param newsList News list
+     * @param news News object
      */
     @PostMapping
-    public void postNews(@RequestBody @Valid ValidList<News> newsList) {
-        newsService.addNews(newsList);
+    public void postNews(@RequestBody @Valid News news) {
+        newsService.addNews(news);
     }
 
     /**

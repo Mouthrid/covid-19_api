@@ -89,22 +89,18 @@ class NewsControllerTests {
 
     @Test
     void testPostNews() throws Exception {
-        List<News> newsList = new ArrayList<>();
-        for(int i=1; i<=2; i++) {
-            newsList.add(new NewsIgnoreProperties(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
-                    "https://img.jpg", "This is test object."));
-        }
-        System.out.print(newsList.toString());
+        News news = new NewsIgnoreProperties("1L", "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+                    "https://img.jpg", "This is test object.");
         mockMvc.perform(post("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
-        .content(asJsonString(newsList))).andExpect(status().isOk())
+        .content(asJsonString(news))).andExpect(status().isOk())
         .andDo(document("news/post",
                 requestFields(
-                        fieldWithPath("[].id").description("The unique News Id"),
-                        fieldWithPath("[].title").description("The title of News"),
-                        fieldWithPath("[].newsTime").description("The time of News publish (format: 2021-01-01)"),
-                        fieldWithPath("[].newsUrl").description("The URL for the News website"),
-                        fieldWithPath("[].imgUrl").description("The image for the News"),
-                        fieldWithPath("[].description").description("The News description")
+                        fieldWithPath("id").description("The unique News Id"),
+                        fieldWithPath("title").description("The title of News"),
+                        fieldWithPath("newsTime").description("The time of News publish (format: 2021-01-01)"),
+                        fieldWithPath("newsUrl").description("The URL for the News website"),
+                        fieldWithPath("imgUrl").description("The image for the News"),
+                        fieldWithPath("description").description("The News description")
                 )));
     }
 

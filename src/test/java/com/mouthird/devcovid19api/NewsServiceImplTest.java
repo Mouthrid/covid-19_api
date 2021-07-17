@@ -51,13 +51,10 @@ public class NewsServiceImplTest {
 
     @Test
     public void addNews() {
-        List<News> newsList = new ArrayList<>();
-        for(int i=0; i<5; i++) {
-            newsList.add(new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
-                    "https://img.jpg", "This is test object."));
-        }
-        newsService.addNews(newsList);
-        verify(newsRepository, times(1)).saveAll(newsList);
+        News news = new News("1LL", "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+                "https://img.jpg", "This is test object.");
+        newsService.addNews(news);
+        verify(newsRepository, times(1)).save(news);
     }
 
     @Test
