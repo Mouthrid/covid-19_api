@@ -15,3 +15,5 @@ operation::news/post[snippets='curl-request,http-request,http-response,request-b
 operation::news/put[snippets='curl-request,http-request,http-response,request-body,request-fields']
 === DELETE
 operation::news/delete[snippets='curl-request,http-request,http-response,request-parameters']
+=== Exists
+operation::news/getExists[snippets='curl-request,http-request,http-response,request-parameters,response-body,response-fields']

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="api/v0/news")
@@ -25,8 +27,18 @@ public class NewsController {
      * @param limit the number of news list
      * @return News list
      */
-    @GetMapping
+    @RequestMapping(params = "limit")
     public List<News> getNews(@RequestParam("limit") Integer limit) { return newsService.getNews(limit); }
+
+    /**
+     * Check id exists in database or not
+     * @param id News id
+     * @return true or false
+     */
+    @RequestMapping(params = "id")
+    public Map<String, Boolean> existsNews(@RequestParam("id") String id) {
+        return Collections.singletonMap("state", newsService.existsNews(id));
+    }
 
     /**
      * Add News list to the database
@@ -49,5 +61,5 @@ public class NewsController {
      * @param id News Id
      */
     @DeleteMapping
-    public void deleteNews(@RequestParam("id") Long id) { newsService.deleteById(id); }
+    public void deleteNews(@RequestParam("id") String id) { newsService.deleteById(id); }
 }

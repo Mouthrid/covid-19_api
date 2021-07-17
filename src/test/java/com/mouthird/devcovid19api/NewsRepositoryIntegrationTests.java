@@ -31,7 +31,7 @@ class NewsRepositoryIntegrationTests {
 		newsRepository.deleteAll();
 		List<News> newsList = new ArrayList<>();
 		for(int i=0; i<5; i++) {
-			newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
+			newsList.add(new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
 					"https://img.jpg", "This is test object."));
 
 		}

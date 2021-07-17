@@ -27,7 +27,7 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -62,7 +62,7 @@ class NewsControllerTests {
     void testGetNews() throws Exception {
         List<News> newsList = new ArrayList<>();
         for(int i=1; i<=2; i++) {
-            newsList.add(new News((long)i,"test title", LocalDate.parse("2021-07-12"), "https://test.com",
+            newsList.add(new News(String.valueOf(i),"test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
 
@@ -91,14 +91,15 @@ class NewsControllerTests {
     void testPostNews() throws Exception {
         List<News> newsList = new ArrayList<>();
         for(int i=1; i<=2; i++) {
-            newsList.add(new NewsIgnoreProperties("test title", LocalDate.parse("2021-07-12"), "https://test.com",
+            newsList.add(new NewsIgnoreProperties(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
-
+        System.out.print(newsList.toString());
         mockMvc.perform(post("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(newsList))).andExpect(status().isOk())
         .andDo(document("news/post",
                 requestFields(
+                        fieldWithPath("[].id").description("The unique News Id"),
                         fieldWithPath("[].title").description("The title of News"),
                         fieldWithPath("[].newsTime").description("The time of News publish (format: 2021-01-01)"),
                         fieldWithPath("[].newsUrl").description("The URL for the News website"),
@@ -109,7 +110,7 @@ class NewsControllerTests {
 
     @Test
     void testPutNews() throws Exception {
-        News news = new News(1L,"test title", LocalDate.parse("2021-07-12"), "https://test.com",
+        News news = new News("1L","test title", LocalDate.parse("2021-07-12"), "https://test.com",
                 "https://img.jpg", "This is test object.");
         mockMvc.perform(put("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(news))).andExpect(status().isOk())
@@ -134,14 +135,24 @@ class NewsControllerTests {
                 ));
     }
 
-    @JsonIgnoreProperties({"id","crawlTime"})
+    @Test
+    void testExistsNews() throws Exception {
+        mockMvc.perform(get("/api/v0/news").param("id", "1L"))
+                .andExpect(status().isOk())
+                .andDo(document("news/getExists",
+                        requestParameters(parameterWithName("id").description("The News id")),
+                        responseFields(fieldWithPath("state").description("exists or not"))));
+    }
+
+    @JsonIgnoreProperties({"crawlTime"})
     public class NewsIgnoreProperties extends News {
-        public NewsIgnoreProperties(String title,
-                    LocalDate newsTime,
-                    String newsUrl,
-                    String imgUrl,
-                    String description) {
-            super(title, newsTime, newsUrl, imgUrl, description);
+        public NewsIgnoreProperties(String id,
+                                    String title,
+                                    LocalDate newsTime,
+                                    String newsUrl,
+                                    String imgUrl,
+                                    String description) {
+            super(id, title, newsTime, newsUrl, imgUrl, description);
         }
     }
 

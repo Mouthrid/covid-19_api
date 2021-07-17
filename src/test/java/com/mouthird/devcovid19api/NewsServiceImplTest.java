@@ -32,7 +32,7 @@ public class NewsServiceImplTest {
     public void getNews() {
         List<News> newsList = new ArrayList<>();
         for(int i=0; i<5; i++) {
-            newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
+            newsList.add(new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
         Page<News> newsPage = new PageImpl<>(newsList);
@@ -44,16 +44,16 @@ public class NewsServiceImplTest {
 
     @Test
     public void deleteNews() {
-        when(newsRepository.existsById(1L)).thenReturn(true);
-        newsService.deleteById(1L);
-        verify(newsRepository, times(1)).deleteById(1L);
+        when(newsRepository.existsById("1L")).thenReturn(true);
+        newsService.deleteById("1L");
+        verify(newsRepository, times(1)).deleteById("1L");
     }
 
     @Test
     public void addNews() {
         List<News> newsList = new ArrayList<>();
         for(int i=0; i<5; i++) {
-            newsList.add(new News("test title", LocalDate.parse("2021-07-12"), "https://test.com",
+            newsList.add(new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
         newsService.addNews(newsList);
@@ -62,11 +62,18 @@ public class NewsServiceImplTest {
 
     @Test
     public void putNews() {
-        News news = new News(1L, "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+        News news = new News("1L", "test title", LocalDate.parse("2021-07-12"), "https://test.com",
                 "https://img.jpg", "This is test object.");
-        when(newsRepository.existsById(1L)).thenReturn(true);
+        when(newsRepository.existsById("1L")).thenReturn(true);
         newsService.putNews(news);
         verify(newsRepository, times(1)).save(news);
 
+    }
+
+    @Test
+    public void existsNews() {
+        when(newsRepository.existsById("1L")).thenReturn(true);
+        boolean response = newsService.existsNews("1L");
+        assertEquals(true, response);
     }
 }

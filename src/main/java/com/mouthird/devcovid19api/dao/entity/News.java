@@ -19,16 +19,8 @@ public class News {
      * News id in database
      */
     @Id
-    @SequenceGenerator(
-            name = "news_sequence",
-            sequenceName = "news_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "news_sequence"
-    )
-    private Long id;
+    @NotBlank(message = "id is missing or empty")
+    private String id;
     /**
      * News title
      */
@@ -67,27 +59,6 @@ public class News {
 
     /**
      * Parameterized constructor
-     * @param title News title
-     * @param newsTime News published time, format: 2021-07-11
-     * @param newsUrl News website url
-     * @param imgUrl image url for this News
-     * @param description short description for this News
-     */
-    public News(String title,
-                LocalDate newsTime,
-                String newsUrl,
-                String imgUrl,
-                String description) {
-        this.title = title;
-        this.newsTime = newsTime;
-        this.crawlTime = LocalDate.now();
-        this.newsUrl = newsUrl;
-        this.imgUrl = imgUrl;
-        this.description = description;
-    }
-
-    /**
-     * Parameterized constructor
      * @param id News Id
      * @param title News title
      * @param newsTime News published time, format: 2021-07-11
@@ -95,7 +66,7 @@ public class News {
      * @param imgUrl image url for this News
      * @param description short description for this News
      */
-    public News(Long id,
+    public News(String id,
                 String title,
                 LocalDate newsTime,
                 String newsUrl,
@@ -113,7 +84,7 @@ public class News {
     /**
      * Set News Id
      */
-    public  void setId(Long id) {
+    public  void setId(String id) {
         this.id = id;
     }
 
@@ -121,7 +92,7 @@ public class News {
      * Get News Id
      * @return returns News Id
      */
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

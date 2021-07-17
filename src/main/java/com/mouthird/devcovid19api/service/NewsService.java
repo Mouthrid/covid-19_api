@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NewsService {
@@ -20,7 +21,18 @@ public class NewsService {
         this.newsRepository = newsRepository;
     }
 
-    public void addNews(List<News> newsList) { newsRepository.saveAll(newsList); }
+    public void addNews(List<News> newsList) {
+        for(News news : newsList) {
+            boolean exists = newsRepository.existsById(news.getId());
+            if (exists) {
+                throw new IllegalStateException(
+                        "News with id " + news.getId() + " already exists"
+                );
+            }
+        }
+
+        newsRepository.saveAll(newsList);
+    }
 
     public void putNews(News news) {
         boolean exists = newsRepository.existsById(news.getId());
@@ -39,7 +51,7 @@ public class NewsService {
         return newsRepository.findAll(pageable).getContent();
     }
 
-    public void deleteById(Long Id) {
+    public void deleteById(String Id) {
         boolean exists = newsRepository.existsById(Id);
         if (!exists) {
             throw new IllegalStateException(
@@ -47,6 +59,10 @@ public class NewsService {
             );
         }
         newsRepository.deleteById(Id);
+    }
+
+    public boolean existsNews(String Id) {
+        return newsRepository.existsById(Id);
     }
 
 }
