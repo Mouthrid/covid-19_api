@@ -31,8 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.is;
@@ -49,12 +50,18 @@ class NewsControllerTests {
     @MockBean
     private NewsService newsService;
 
+    private Date date;
+
+    private Timestamp timestamp;
+
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
                       RestDocumentationContextProvider restDocumentationContextProvider) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentationContextProvider)).build();
 
+        date = new Date();
+        timestamp = new Timestamp(date.getTime());
 
     }
 
@@ -62,14 +69,13 @@ class NewsControllerTests {
     void testGetNews() throws Exception {
         List<News> newsList = new ArrayList<>();
         for(int i=1; i<=2; i++) {
-            newsList.add(new News(String.valueOf(i),"test title", LocalDate.parse("2021-07-12"), "https://test.com",
+            newsList.add(new News(String.valueOf(i),"test title", timestamp, "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
 
         when(this.newsService.getNews(2)).thenReturn(newsList);
         mockMvc.perform(get("/api/v0/news").param("limit", "2"))
                 .andExpect(jsonPath("$[0].title", is("test title")))
-                .andExpect(jsonPath("$[0].newsTime", is("2021-07-12")))
                 .andExpect(jsonPath("$[0].newsUrl", is("https://test.com")))
                 .andExpect(jsonPath("$[0].imgUrl", is("https://img.jpg")))
                 .andExpect(jsonPath("$[0].description", is("This is test object.")))
@@ -89,7 +95,7 @@ class NewsControllerTests {
 
     @Test
     void testPostNews() throws Exception {
-        News news = new NewsIgnoreProperties("1L", "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+        News news = new NewsIgnoreProperties("1L", "test title", timestamp, "https://test.com",
                     "https://img.jpg", "This is test object.");
         mockMvc.perform(post("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(news))).andExpect(status().isOk())
@@ -97,7 +103,7 @@ class NewsControllerTests {
                 requestFields(
                         fieldWithPath("id").description("The unique News Id"),
                         fieldWithPath("title").description("The title of News"),
-                        fieldWithPath("newsTime").description("The time of News publish (format: 2021-01-01)"),
+                        fieldWithPath("newsTime").description("The times of News publish (format: 2021-07-18T13:11:26Z)"),
                         fieldWithPath("newsUrl").description("The URL for the News website"),
                         fieldWithPath("imgUrl").description("The image for the News"),
                         fieldWithPath("description").description("The News description")
@@ -106,7 +112,7 @@ class NewsControllerTests {
 
     @Test
     void testPutNews() throws Exception {
-        News news = new News("1L","test title", LocalDate.parse("2021-07-12"), "https://test.com",
+        News news = new News("1L","test title", timestamp, "https://test.com",
                 "https://img.jpg", "This is test object.");
         mockMvc.perform(put("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(news))).andExpect(status().isOk())
@@ -124,10 +130,10 @@ class NewsControllerTests {
 
     @Test
     void testDeleteNews() throws Exception {
-        mockMvc.perform(delete("/api/v0/news").param("id", "1"))
+        mockMvc.perform(delete("/api/v0/news").param("del_id", "1"))
                 .andExpect(status().isOk())
                 .andDo(document("news/delete",
-                        requestParameters(parameterWithName("id").description("The News id"))
+                        requestParameters(parameterWithName("del_id").description("The News id"))
                 ));
     }
 
@@ -144,7 +150,7 @@ class NewsControllerTests {
     public class NewsIgnoreProperties extends News {
         public NewsIgnoreProperties(String id,
                                     String title,
-                                    LocalDate newsTime,
+                                    Timestamp newsTime,
                                     String newsUrl,
                                     String imgUrl,
                                     String description) {

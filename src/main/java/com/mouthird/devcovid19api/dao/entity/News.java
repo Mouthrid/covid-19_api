@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 /**
  * Class for News
@@ -27,15 +27,16 @@ public class News {
     @NotBlank(message = "title is missing or empty")
     private String title;
     /**
-     * News published time
+     * News published date
      */
-    @NotNull(message = "newsTime is missing or empty")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate newsTime;
+    @NotNull(message = "newsDate is missing or empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp newsTime;
     /**
-     * time of web crawler get this news
+     * timestamp of web crawler send the news in api
      */
-    private LocalDate crawlTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp crawlTime;
     /**
      * News website url
      */
@@ -61,21 +62,20 @@ public class News {
      * Parameterized constructor
      * @param id News Id
      * @param title News title
-     * @param newsTime News published time, format: 2021-07-11
+     * @param newsTime News published date, format: 2021-07-18T13:11:26Z
      * @param newsUrl News website url
      * @param imgUrl image url for this News
      * @param description short description for this News
      */
     public News(String id,
                 String title,
-                LocalDate newsTime,
+                Timestamp newsTime,
                 String newsUrl,
                 String imgUrl,
                 String description) {
         this.id = id;
         this.title = title;
         this.newsTime = newsTime;
-        this.crawlTime = LocalDate.now();
         this.newsUrl = newsUrl;
         this.imgUrl = imgUrl;
         this.description = description;
@@ -116,7 +116,7 @@ public class News {
      * Get News time
      * @return returns News time
      */
-    public LocalDate getNewsTime() {
+    public Timestamp getNewsTime() {
         return newsTime;
     }
 
@@ -124,7 +124,7 @@ public class News {
      * Set News time
      * @param newsTime News time
      */
-    public void setNewsTime(LocalDate newsTime) {
+    public void setNewsTime(Timestamp newsTime) {
         this.newsTime = newsTime;
     }
 
@@ -132,15 +132,15 @@ public class News {
      * Get Crawl time
      * @return crawl time
      */
-    public LocalDate getCrawlTime() {
+    public Timestamp getCrawlTime() {
         return crawlTime;
     }
 
     /**
-     * Set crawl time (Auto generate)
+     * Set crawl time (Auto generate, server time)
      * @param crawlTime Crawl time
      */
-    public void setCrawlTime(LocalDate crawlTime) {
+    public void setCrawlTime(Timestamp crawlTime) {
         this.crawlTime = crawlTime;
     }
 

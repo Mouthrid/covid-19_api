@@ -7,7 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,8 +28,10 @@ public class NewsService {
                     "News with id " + news.getId() + " already exists"
             );
         }
-        if(news.getCrawlTime() == null)
-            news.setCrawlTime(LocalDate.now());
+        if(news.getCrawlTime() == null) {
+            Date date = new Date();
+            news.setCrawlTime(new Timestamp(date.getTime()));
+        }
         newsRepository.save(news);
     }
 
@@ -39,8 +42,11 @@ public class NewsService {
                     "News with id " + news.getId() + " does not exists"
             );
         }
-        if(news.getCrawlTime() == null)
-            news.setCrawlTime(LocalDate.now());
+        if(news.getCrawlTime() == null) {
+            Date date = new Date();
+            news.setCrawlTime(new Timestamp(date.getTime()));
+        }
+        System.out.println(news);
         newsRepository.save(news);
     }
 

@@ -3,6 +3,7 @@ package com.mouthird.devcovid19api;
 import com.mouthird.devcovid19api.dao.entity.News;
 import com.mouthird.devcovid19api.dao.repositories.NewsRepository;
 import com.mouthird.devcovid19api.service.NewsService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,8 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,11 +30,25 @@ public class NewsServiceImplTest {
     @MockBean
     private NewsRepository newsRepository;
 
+    private News news;
+
+    private Date date;
+
+    private Timestamp timestamp;
+
+    @BeforeEach
+    public void setUp() {
+        date = new Date();
+        timestamp = new Timestamp(date.getTime());
+        news = new News("1LL", "test title", timestamp, "https://test.com",
+                "https://img.jpg", "This is test object.");
+    }
+
     @Test
     public void getNews() {
         List<News> newsList = new ArrayList<>();
         for(int i=0; i<5; i++) {
-            newsList.add(new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+            newsList.add(new News(String.valueOf(i), "test title", timestamp, "https://test.com",
                     "https://img.jpg", "This is test object."));
         }
         Page<News> newsPage = new PageImpl<>(newsList);
@@ -51,17 +67,13 @@ public class NewsServiceImplTest {
 
     @Test
     public void addNews() {
-        News news = new News("1LL", "test title", LocalDate.parse("2021-07-12"), "https://test.com",
-                "https://img.jpg", "This is test object.");
         newsService.addNews(news);
         verify(newsRepository, times(1)).save(news);
     }
 
     @Test
     public void putNews() {
-        News news = new News("1L", "test title", LocalDate.parse("2021-07-12"), "https://test.com",
-                "https://img.jpg", "This is test object.");
-        when(newsRepository.existsById("1L")).thenReturn(true);
+        when(newsRepository.existsById("1LL")).thenReturn(true);
         newsService.putNews(news);
         verify(newsRepository, times(1)).save(news);
 

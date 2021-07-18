@@ -60,5 +60,5 @@ public class NewsController {
      * @param id News Id
      */
     @DeleteMapping
-    public void deleteNews(@RequestParam("id") String id) { newsService.deleteById(id); }
+    public void deleteNews(@RequestParam("del_id") String id) { newsService.deleteById(id); }
 }

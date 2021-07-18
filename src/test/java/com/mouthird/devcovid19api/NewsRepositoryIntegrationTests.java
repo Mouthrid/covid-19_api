@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -27,9 +28,12 @@ class NewsRepositoryIntegrationTests {
 
 	@BeforeEach
 	public void setUp() {
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+
 		newsRepository.deleteAll();
 		for(int i=0; i<5; i++) {
-			News news = new News(String.valueOf(i), "test title", LocalDate.parse("2021-07-12"), "https://test.com",
+			News news = new News(String.valueOf(i), "test title", timestamp, "https://test.com",
 					"https://img.jpg", "This is test object.");
 			newsRepository.save(news);
 		}
