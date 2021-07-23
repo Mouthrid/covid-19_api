@@ -46,7 +46,6 @@ public class NewsService {
             Date date = new Date();
             news.setCrawlTime(new Timestamp(date.getTime()));
         }
-        System.out.println(news);
         newsRepository.save(news);
     }
 
