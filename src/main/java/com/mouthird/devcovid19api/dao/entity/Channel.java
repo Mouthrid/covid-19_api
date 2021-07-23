@@ -19,6 +19,7 @@ public class Channel {
      * Channel id in database
      */
     @Id
+    @Column(name = "channel_id")
     @NotBlank(message = "id is missing or empty")
     private String id;
     /**
@@ -31,9 +32,6 @@ public class Channel {
      */
     @NotBlank(message = "imgUrl is missing or empty")
     private String imgUrl;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "video")
-    private Video video;
 
     /**
      * default constructor for Channel
@@ -99,22 +97,6 @@ public class Channel {
      */
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-    /**
-     * Get Video object
-     * @return Video object
-     */
-    public Video getVideo() {
-        return video;
-    }
-
-    /**
-     * Set Video object
-     * @param video Video object
-     */
-    public void setVideo(Video video) {
-        this.video = video;
     }
 
     @Override

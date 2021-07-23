@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.nio.channels.Channel;
 import java.sql.Timestamp;
 
 /**
@@ -30,7 +29,6 @@ public class Video {
     /**
      * Video published date
      */
-    @NotNull(message = "newsDate is missing or empty")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp videoTime;
     /**
@@ -59,11 +57,10 @@ public class Video {
     @NotBlank(message = "duration is missing or empty")
     private String duration;
     /**
-     * Channel Id of this Video
+     * Channel of this Video
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "channel_id")
-    @NotBlank(message = "ChannelId is missing or empty")
     private Channel channel;
 
     /**
