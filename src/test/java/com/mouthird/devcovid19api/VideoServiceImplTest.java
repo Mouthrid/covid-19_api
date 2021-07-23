@@ -49,9 +49,9 @@ public class VideoServiceImplTest {
                     new Channel("1L", "Mouthrid", "https://mouthrid.jpg")));
         }
         Page<Video> videoPage = new PageImpl<>(videoList);
-        PageRequest pageable = PageRequest.of(0,5 , Sort.by(Sort.Direction.DESC, "videoTime"));
+        PageRequest pageable = PageRequest.of(0,5 , Sort.by(Sort.Direction.DESC, "video_time"));
         when(videoRepository.findByState("saved", pageable)).thenReturn(videoPage.getContent());
-        List<Video> response = videoService.getSavedVideo(5);
+        List<Video> response = videoService.getVideo("saved", 5);
         assertEquals(5, response.size());
     }
 
@@ -63,8 +63,10 @@ public class VideoServiceImplTest {
                     "https://img.jpg", 10000, "watching", "03:29",
                     new Channel("1L", "Mouthrid", "https://mouthrid.jpg")));
         }
-        when(videoRepository.findByNotState("saved")).thenReturn(videoList);
-        List<Video> response = videoService.getLiveVideo();
+        Page<Video> videoPage = new PageImpl<>(videoList);
+        PageRequest pageable = PageRequest.of(0,5 , Sort.by(Sort.Direction.DESC, "video_time"));
+        when(videoRepository.findByNotState("saved", pageable)).thenReturn(videoPage.getContent());
+        List<Video> response = videoService.getVideo("live", 5);
         assertEquals(5, response.size());
 
     }

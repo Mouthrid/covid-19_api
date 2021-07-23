@@ -24,13 +24,27 @@ public interface VideoRepository extends
     @Query("SELECT v FROM Video v WHERE v.viewState != ?1")
     List<Video> findByNotState(String viewState);
 
+//    @Query(value = "SELECT v FROM Video v WHERE v.viewState != ?1",
+//        countQuery = "SELECT count(v) FROM Video v WHERE v.viewState != ?1",
+//        nativeQuery = true)
+//    List<Video> findByNotState(String viewState, PageRequest pageRequest);
+
+    @Query(value = "SELECT * FROM Video WHERE view_state != ?1",
+            countQuery = "SELECT count(*) FROM Video WHERE view_state != ?1",
+            nativeQuery = true)
+    List<Video> findByNotState(String viewState, PageRequest pageRequest);
+
     @Query("SELECT v FROM Video v WHERE v.viewState = ?1")
     List<Video> findByState(String viewState);
 
-    @Query(value = "SELECT v FROM Video v WHERE v.viewState = ?1",
-        countQuery = "SELECT count(v) FROM Video v WHERE v.viewState = ?1",
-        nativeQuery = true)
-    List<Video> findByState(String viewState, PageRequest pageable);
+//    @Query(value = "SELECT v FROM Video v WHERE v.viewState = ?1",
+//        countQuery = "SELECT count(v) FROM Video v WHERE v.viewState = ?1",
+//        nativeQuery = true)
+//    List<Video> findByState(String viewState, PageRequest pageRequest);
+    @Query(value = "SELECT * FROM Video WHERE view_state = ?1",
+            countQuery = "SELECT count(*) FROM Video WHERE view_state = ?1",
+            nativeQuery = true)
+    List<Video> findByState(String viewState, PageRequest pageRequest);
 
     @Transactional
     Long deleteById(String id);

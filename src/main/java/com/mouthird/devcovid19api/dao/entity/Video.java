@@ -193,7 +193,7 @@ public class Video {
     }
 
     /**
-     * Get view state ('watching', 'waitting', 'saved')
+     * Get view state ('watching', 'waiting', 'saved')
      * @return view state
      */
     public String getViewState() {
@@ -202,7 +202,7 @@ public class Video {
 
     /**
      * Set view state
-     * @param viewState view state ('watching', 'waitting', 'saved')
+     * @param viewState view state ('watching', 'waiting', 'saved')
      */
     public void setViewState(String viewState) {
         this.viewState = viewState;

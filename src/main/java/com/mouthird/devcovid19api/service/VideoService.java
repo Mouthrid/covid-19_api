@@ -41,13 +41,17 @@ public class VideoService {
         videoRepository.save(video);
     }
 
-    public List<Video> getSavedVideo(int limit) {
-        PageRequest pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "videoTime"));
-        return videoRepository.findByState("saved", pageable);
-    }
-
-    public List<Video> getLiveVideo() {
-        return videoRepository.findByNotState("saved");
+    public List<Video> getVideo(String viewState, int limit) {
+        PageRequest pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "video_time"));
+        if(viewState.equals("saved"))
+            return videoRepository.findByState("saved", pageable);
+        else if(viewState.equals("live"))
+            return videoRepository.findByNotState("saved", pageable);
+        else {
+            throw new IllegalArgumentException(
+                    "viewState need to be 'saved' or 'live'"
+            );
+        }
     }
 
     public void deleteById(String Id) {
