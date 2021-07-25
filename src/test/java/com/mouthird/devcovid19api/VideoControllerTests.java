@@ -1,6 +1,5 @@
 package com.mouthird.devcovid19api;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -148,7 +147,7 @@ class VideoControllerTests {
 
     @Test
     void testPostVideo() throws Exception {
-        Video video = new VideoIgnoreProperties("1L", "test title", "https://test.com",
+        Video video = new Video("1L", "test title", null, "https://test.com",
                 "https://img.jpg", 10000, "watching", "03:29", channel);
         mockMvc.perform(post("/api/v0/video").header("appKey", APP_KEY).contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(video))).andExpect(status().isOk())
@@ -156,6 +155,7 @@ class VideoControllerTests {
                 requestFields(
                         fieldWithPath("id").description("The unique Video Id"),
                         fieldWithPath("title").description("The title of Video"),
+                        fieldWithPath("videoTime").description("Live video is null, saved video is 2021-07-25 10:14"),
                         fieldWithPath("videoUrl").description("The URL for the Video website"),
                         fieldWithPath("imgUrl").description("The image for the Video"),
                         fieldWithPath("viewCount").description("The Video view count"),
@@ -169,7 +169,7 @@ class VideoControllerTests {
 
     @Test
     void testPutVideo() throws Exception {
-        Video video = new VideoIgnoreProperties("1L", "test title", "https://test.com",
+        Video video = new Video("1L", "test title", null, "https://test.com",
                 "https://img.jpg", 10000, "watching", "03:29", channel);
         mockMvc.perform(put("/api/v0/video").header("appKey", APP_KEY).contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(video))).andExpect(status().isOk())
@@ -177,6 +177,7 @@ class VideoControllerTests {
                         requestFields(
                                 fieldWithPath("id").description("The unique Video Id"),
                                 fieldWithPath("title").description("The title of Video"),
+                                fieldWithPath("videoTime").description("Live video is null, saved video is 2021-07-25 10:14"),
                                 fieldWithPath("videoUrl").description("The URL for the Video website"),
                                 fieldWithPath("imgUrl").description("The image for the Video"),
                                 fieldWithPath("viewCount").description("The Video view count"),
@@ -195,20 +196,6 @@ class VideoControllerTests {
                 .andDo(document("video/delete",
                         requestParameters(parameterWithName("id").description("The Video id"))
                 ));
-    }
-
-    @JsonIgnoreProperties({"videoTime"})
-    public class VideoIgnoreProperties extends Video {
-        public VideoIgnoreProperties(String id,
-                                    String title,
-                                    String videoUrl,
-                                    String imgUrl,
-                                    int viewCount,
-                                    String viewState,
-                                    String duration,
-                                    Channel channel) {
-            super(id, title, videoUrl, imgUrl, viewCount, viewState, duration, channel);
-        }
     }
 
     public static String asJsonString(final Object obj) {

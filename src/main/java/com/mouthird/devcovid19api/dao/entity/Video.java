@@ -98,6 +98,38 @@ public class Video {
     }
 
     /**
+     * Parameterized constructor
+     * @param id Video Id
+     * @param title Video title
+     * @param videoTime Video published time
+     * @param videoUrl Video website url
+     * @param imgUrl image url for this Video
+     * @param viewCount view count of this Video
+     * @param viewState view state of this Video
+     * @param duration duration fo this Video
+     * @param channel this Video's channel
+     */
+    public Video(String id,
+                 String title,
+                 Timestamp videoTime,
+                 String videoUrl,
+                 String imgUrl,
+                 int viewCount,
+                 String viewState,
+                 String duration,
+                 Channel channel) {
+        this.id = id;
+        this.title = title;
+        this.videoTime = videoTime;
+        this.videoUrl = videoUrl;
+        this.imgUrl = imgUrl;
+        this.viewCount = viewCount;
+        this.viewState = viewState;
+        this.duration = duration;
+        this.channel = channel;
+    }
+
+    /**
      * Set Video Id
      */
     public  void setId(String id) {

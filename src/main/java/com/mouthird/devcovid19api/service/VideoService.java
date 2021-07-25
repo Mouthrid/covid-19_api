@@ -36,8 +36,10 @@ public class VideoService {
     }
 
     public void putVideo(Video video) {
-        Date date = new Date();
-        video.setVideoTime(new Timestamp(date.getTime()));
+        if(video.getVideoTime() == null) {
+            Date date = new Date();
+            video.setVideoTime(new Timestamp(date.getTime()));
+        }
         videoRepository.save(video);
     }
 
