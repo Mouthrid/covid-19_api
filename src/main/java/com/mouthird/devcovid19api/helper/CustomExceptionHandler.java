@@ -16,4 +16,8 @@ public class CustomExceptionHandler {
     public Object NullIdHandler(IllegalArgumentException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+    @ExceptionHandler(SecurityException.class)
+    public Object UnauthorizedHandler(SecurityException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
 }

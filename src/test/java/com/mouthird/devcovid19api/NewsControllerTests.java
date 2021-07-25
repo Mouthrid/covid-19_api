@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -53,6 +54,9 @@ class NewsControllerTests {
     private Date date;
 
     private Timestamp timestamp;
+
+    @Value("${APP_KEY}")
+    private String APP_KEY;
 
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
@@ -97,7 +101,7 @@ class NewsControllerTests {
     void testPostNews() throws Exception {
         News news = new NewsIgnoreProperties("1L", "test title", timestamp, "https://test.com",
                     "https://img.jpg", "This is test object.");
-        mockMvc.perform(post("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v0/news").header("appKey", APP_KEY).contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(news))).andExpect(status().isOk())
         .andDo(document("news/post",
                 requestFields(
@@ -114,7 +118,7 @@ class NewsControllerTests {
     void testPutNews() throws Exception {
         News news = new News("1L","test title", timestamp, "https://test.com",
                 "https://img.jpg", "This is test object.");
-        mockMvc.perform(put("/api/v0/news").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/api/v0/news").header("appKey", APP_KEY).contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(news))).andExpect(status().isOk())
                 .andDo(document("news/put",
                         requestFields(
@@ -130,7 +134,7 @@ class NewsControllerTests {
 
     @Test
     void testDeleteNews() throws Exception {
-        mockMvc.perform(delete("/api/v0/news").param("del_id", "1"))
+        mockMvc.perform(delete("/api/v0/news").header("appKey", APP_KEY).param("del_id", "1"))
                 .andExpect(status().isOk())
                 .andDo(document("news/delete",
                         requestParameters(parameterWithName("del_id").description("The News id"))

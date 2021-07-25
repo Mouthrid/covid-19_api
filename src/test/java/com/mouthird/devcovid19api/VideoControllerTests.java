@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -46,6 +47,9 @@ class VideoControllerTests {
 
     @Autowired
     private VideoController videoController;
+
+    @Value("${APP_KEY}")
+    private String APP_KEY;
 
     @MockBean
     private VideoService videoService;
@@ -146,7 +150,7 @@ class VideoControllerTests {
     void testPostVideo() throws Exception {
         Video video = new VideoIgnoreProperties("1L", "test title", "https://test.com",
                 "https://img.jpg", 10000, "watching", "03:29", channel);
-        mockMvc.perform(post("/api/v0/video").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v0/video").header("appKey", APP_KEY).contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(video))).andExpect(status().isOk())
         .andDo(document("video/post",
                 requestFields(
@@ -167,7 +171,7 @@ class VideoControllerTests {
     void testPutVideo() throws Exception {
         Video video = new VideoIgnoreProperties("1L", "test title", "https://test.com",
                 "https://img.jpg", 10000, "watching", "03:29", channel);
-        mockMvc.perform(put("/api/v0/video").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/api/v0/video").header("appKey", APP_KEY).contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(video))).andExpect(status().isOk())
                 .andDo(document("video/put",
                         requestFields(
@@ -186,7 +190,7 @@ class VideoControllerTests {
 
     @Test
     void testDeleteVideo() throws Exception {
-        mockMvc.perform(delete("/api/v0/video").param("id", "1"))
+        mockMvc.perform(delete("/api/v0/video").header("appKey", APP_KEY).param("id", "1"))
                 .andExpect(status().isOk())
                 .andDo(document("video/delete",
                         requestParameters(parameterWithName("id").description("The Video id"))

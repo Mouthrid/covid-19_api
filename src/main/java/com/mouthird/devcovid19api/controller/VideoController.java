@@ -3,6 +3,7 @@ package com.mouthird.devcovid19api.controller;
 import com.mouthird.devcovid19api.dao.entity.Video;
 import com.mouthird.devcovid19api.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,6 +14,9 @@ import java.util.List;
 public class VideoController {
 
     private final VideoService videoService;
+
+    @Value("${APP_KEY}")
+    private String APP_KEY;
 
     @Autowired
     public VideoController(VideoService videoService) {
@@ -33,24 +37,40 @@ public class VideoController {
 
     /**
      * Add Video to the database
+     * @param appKey app key
      * @param video Video object
      */
     @PostMapping
-    public void postVideo(@RequestBody @Valid Video video) {
+    public void postVideo(@RequestHeader("appKey") String appKey,
+                          @RequestBody @Valid Video video) {
+        if(!APP_KEY.equals(appKey))
+            throw new SecurityException(appKey + " is incorrect");
         videoService.addVideo(video);
     }
 
     /**
      * Modify Video content
+     * @param appKey app key
      * @param video Video object
      */
     @PutMapping
-    public void putVideo(@RequestBody @Valid Video video) { videoService.putVideo(video); }
+    public void putVideo(@RequestHeader("appKey") String appKey,
+                         @RequestBody @Valid Video video) {
+        if(!APP_KEY.equals(appKey))
+            throw new SecurityException(appKey + " is incorrect");
+        videoService.putVideo(video);
+    }
 
     /**
      * Delete Video by Id
+     * @param appKey app key
      * @param id Video Id
      */
     @DeleteMapping
-    public void deleteVideo(@RequestParam("id") String id) { videoService.deleteById(id); }
+    public void deleteVideo(@RequestHeader("appKey") String appKey,
+                            @RequestParam("id") String id) {
+        if(!APP_KEY.equals(appKey))
+            throw new SecurityException(appKey + " is incorrect");
+        videoService.deleteById(id);
+    }
 }
