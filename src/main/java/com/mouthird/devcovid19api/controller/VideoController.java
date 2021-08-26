@@ -23,23 +23,13 @@ public class VideoController {
         this.videoService = videoService;
     }
 
-    /**
-     * Get saved or live video
-     * @param viewState view state ('saved' or 'live')
-     * @param limit the number of video list
-     * @return Video list
-     */
+    @CrossOrigin
     @GetMapping(params = {"viewState", "limit"})
     public List<Video> getVideo(@RequestParam("viewState") String viewState,
                                @RequestParam("limit") Integer limit) {
         return videoService.getVideo(viewState, limit);
     }
 
-    /**
-     * Add Video to the database
-     * @param appKey app key
-     * @param video Video object
-     */
     @PostMapping
     public void postVideo(@RequestHeader("appKey") String appKey,
                           @RequestBody @Valid Video video) {
@@ -48,11 +38,6 @@ public class VideoController {
         videoService.addVideo(video);
     }
 
-    /**
-     * Modify Video content
-     * @param appKey app key
-     * @param video Video object
-     */
     @PutMapping
     public void putVideo(@RequestHeader("appKey") String appKey,
                          @RequestBody @Valid Video video) {
@@ -61,11 +46,6 @@ public class VideoController {
         videoService.putVideo(video);
     }
 
-    /**
-     * Delete Video by Id
-     * @param appKey app key
-     * @param id Video Id
-     */
     @DeleteMapping
     public void deleteVideo(@RequestHeader("appKey") String appKey,
                             @RequestParam("id") String id) {

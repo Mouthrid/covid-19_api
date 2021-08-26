@@ -25,29 +25,15 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-    /**
-     * Get all News in the database
-     * @param limit the number of news list
-     * @return News list
-     */
+    @CrossOrigin
     @RequestMapping(params = "limit")
     public List<News> getNews(@RequestParam("limit") Integer limit) { return newsService.getNews(limit); }
 
-    /**
-     * Check id exists in database or not
-     * @param id News id
-     * @return true or false
-     */
     @RequestMapping(params = "id")
     public Map<String, Boolean> existsNews(@RequestParam("id") String id) {
         return Collections.singletonMap("state", newsService.existsNews(id));
     }
 
-    /**
-     * Add News list to the database
-     * @param appKey app key
-     * @param news News object
-     */
     @PostMapping
     public void postNews(@RequestHeader("appKey") String appKey,
                          @RequestBody @Valid News news) {
@@ -56,11 +42,6 @@ public class NewsController {
         newsService.addNews(news);
     }
 
-    /**
-     * Modify News content
-     * @param appKey app key
-     * @param news News object
-     */
     @PutMapping
     public void putNews(@RequestHeader("appKey") String appKey,
                         @RequestBody @Valid News news) {
@@ -69,11 +50,6 @@ public class NewsController {
         newsService.putNews(news);
     }
 
-    /**
-     * Delete News by Id
-     * @param appKey app key
-     * @param id News Id
-     */
     @DeleteMapping
     public void deleteNews(@RequestHeader("appKey") String appKey,
                            @RequestParam("del_id") String id) {
