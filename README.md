@@ -2,9 +2,18 @@
 
 Provide SQL CRUD service for other COVID-19 application, e.q., web crawler
 
-## COVID-19 Information Website
+# COVID-19 Information Website
 
 <img src="docs/covid19-demo.png" height=200 alt>
-Scan me
+
+Scan this QR code by mobile phone.
+
+The News and video part is provide by this API.
 
 **Notice:** This service only support mobile device and zh-tw language system.
+
+## Acknowledgements
+
+Thanks to my buddies for building this project together
+* UI/UX design, [Greens Chen](https://github.com/GreensChen)
+* Frontend, [Jim Liu](https://github.com/Jim963)
