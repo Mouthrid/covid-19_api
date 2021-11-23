@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13.5
+    container_name: covid19-db-dev
+    environment:
+      POSTGRES_PASSWORD: postgres_dev
+    networks:
+      - covid19-backend-dev
+    volumes:
+      - ${PWD}/schema:/docker-entrypoint-initdb.d:ro
+
+networks:
+  covid19-backend-dev:
+    name: covid19-backend-dev
+    driver: bridge
