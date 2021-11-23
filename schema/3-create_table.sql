@@ -3,7 +3,7 @@
 --the script to remove all tables in the database
 /*
 DROP TABLE IF EXISTS news CASCADE;
-DROP TABLE IF EXISTS videos CASCADE;
+DROP TABLE IF EXISTS video CASCADE;
 DROP TABLE IF EXISTS channel CASCADE;
 */
 
@@ -17,7 +17,7 @@ CREATE TABLE news (
   crawl_time timestamp with time zone not null default current_timestamp
 );
 
-CREATE TABLE videos (
+CREATE TABLE video (
   id varchar(1000) PRIMARY KEY not null,
   title varchar(1000) not null,
   video_url varchar(1000) not null,
