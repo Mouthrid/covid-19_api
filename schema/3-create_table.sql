@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS channel CASCADE;
 */
 
 CREATE TABLE news (
-  id SERIAL PRIMARY KEY,
+  id varchar(1000) PRIMARY KEY not null,
   title varchar(1000) not null,
   news_url varchar(1000) not null,
   img_url varchar(1000) not null,
@@ -18,18 +18,18 @@ CREATE TABLE news (
 );
 
 CREATE TABLE videos (
-  id SERIAL PRIMARY KEY,
+  id varchar(1000) PRIMARY KEY not null,
   title varchar(1000) not null,
   video_url varchar(1000) not null,
   img_url varchar(1000) not null,
   view_state varchar(1000) not null,
   duration varchar(1000) not null,
   view_count int not null default 0,
-  channel_id int not null
+  channel_id varchar(1000) not null
 );
 
 CREATE TABLE channel (
-  id SERIAL PRIMARY KEY,
+  id varchar(1000) PRIMARY KEY not null,
   name varchar(1000) not null,
   img_url varchar(1000) not null
 );
