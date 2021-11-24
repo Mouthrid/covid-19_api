@@ -3,20 +3,15 @@ version: "3.9"
 services:
   app:
     container_name: covid19-api-dev
-    image: openjdk:8-jdk-alpine
+    image: covid19-api:latest
     env_file:
       - ${PWD}/docker/env/covid19-dev.env
-    volumes:
-      - ${PWD}/build/libs:/app/libs
     ports:
       - "8080:8080"
     depends_on:
       - db
     networks:
       - covid19-backend-dev
-    expose:
-      - "8080"
-    entrypoint: ["java","-jar","/app/libs/dev-covid19-api-0.0.1-SNAPSHOT.jar"]
 
   db:
     image: postgres:13.5
