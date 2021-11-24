@@ -12,6 +12,8 @@ services:
       - covid19-backend-prd
     expose:
       - "8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     entrypoint: ["java","-jar","/app/libs/dev-covid19-api-0.0.1-SNAPSHOT.jar"]
 
 networks:
