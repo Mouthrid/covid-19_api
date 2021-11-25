@@ -12,6 +12,31 @@ The News and video part is provide by this API.
 
 **Notice:** This service only support mobile device and zh-tw language system.
 
+# Build Development
+
+1. build java app (.jar)
+
+2. build image
+
+	docker build -f docker/Dockerfile -t covid19-api-dev .
+
+3. build container
+```bash
+$ docker-compose [COMMAND]
+# start      Start services
+# stop       Stop services
+# up         Create and start containers
+# down       Stop and remove containers, networks, images, and volumes
+
+# RUN
+$ docker-compose -f docker/docker-compose-dev.yml up -d
+# STOP
+$ docker-compose stop
+# DELETE
+$ docker-compose down
+```
+
+
 ## Acknowledgements
 
 Thanks to my buddies for building this project together
