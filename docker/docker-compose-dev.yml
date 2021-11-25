@@ -1,6 +1,18 @@
 version: "3.9"
 
 services:
+  app:
+    container_name: covid19-api-dev
+    image: covid19-api-dev:latest
+    env_file:
+      - ${PWD}/docker/env/covid19-dev.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - covid19-backend-dev
+
   db:
     image: postgres:13.5
     container_name: covid19-db-dev
