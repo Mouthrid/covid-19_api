@@ -3,7 +3,7 @@ version: "3.9"
 services:
   app:
     container_name: covid19-api-dev
-    image: covid19-api:latest
+    image: covid19-api-dev:latest
     env_file:
       - ${PWD}/docker/env/covid19-dev.env
     ports:
