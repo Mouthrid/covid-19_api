@@ -1,0 +1,76 @@
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: covid19-api-config
+data:
+  HOST: ${HOST}
+  DATABASE_NAME: ${DATABASE_NAME}
+  POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  APP_KEY: ${APP_KEY}
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: covid19-api-deployment
+  labels:
+    app: covid19-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: covid19-api
+  template:
+    metadata:
+      labels:
+        app: covid19-api
+    spec:
+      containers:
+        - name: covid19-api
+          image: harbor.mouthird.com/project/covid19-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: covid19-api-config
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: covid19-api-service
+spec:
+  selector:
+    app: covid19-api
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: covid19-api-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - dev-covid19-api.mouthird.com
+      secretName: covid19-api-dev-ingress-tls
+  rules:
+  - host: dev-covid19-api.mouthird.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: covid19-api-service
+            port:
+              number: 5000
